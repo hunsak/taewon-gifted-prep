@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>태원이 영재교육원 준비 노트</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1F2E3D">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700&family=Noto+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF6EC;
+    --paper-line:#DCD3BE;
+    --ink:#1F2E3D;
+    --ink-soft:#4B5A6A;
+    --amber:#C68A2E;
+    --amber-soft:#EFDCB5;
+    --sage:#5C7A5E;
+    --sage-soft:#DCE6DA;
+    --coral:#B4534B;
+    --coral-soft:#F1DAD6;
+    --line:#D8CFB8;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      linear-gradient(var(--paper), var(--paper)),
+      repeating-linear-gradient(0deg, transparent 0 27px, var(--paper-line) 27px 28px),
+      repeating-linear-gradient(90deg, transparent 0 27px, var(--paper-line) 27px 28px);
+    background-blend-mode:normal;
+    background-color:var(--paper);
+    opacity:1;
+    color:var(--ink);
+    font-family:'Noto Sans KR', sans-serif;
+    min-height:100vh;
+    padding:0 0 60px;
+  }
+  .bgline{
+    position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.35;
+    background-image:
+      repeating-linear-gradient(0deg, transparent 0 27px, var(--paper-line) 27px 28px),
+      repeating-linear-gradient(90deg, transparent 0 27px, var(--paper-line) 27px 28px);
+  }
+  .wrap{max-width:920px;margin:0 auto;padding:28px 20px 0;position:relative;z-index:1;}
+
+  header.top{
+    display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:14px;
+    border-bottom:2px solid var(--ink); padding-bottom:16px; margin-bottom:22px;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:.14em;
+    color:var(--ink-soft); text-transform:uppercase;
+  }
+  h1{
+    font-family:'Noto Serif KR', serif; font-weight:700; font-size:30px; margin:4px 0 0;
+    color:var(--ink);
+  }
+  .dday-box{
+    text-align:right; font-family:'IBM Plex Mono', monospace;
+  }
+  .dday-num{font-size:34px; font-weight:500; color:var(--coral); line-height:1;}
+  .dday-label{font-size:12px; color:var(--ink-soft); margin-top:4px;}
+
+  /* trail map (signature element) */
+  .trail-card{
+    background:#fff; border:1px solid var(--line); border-radius:6px;
+    padding:22px 22px 10px; margin-bottom:26px; box-shadow:0 1px 0 var(--line);
+  }
+  .trail-title{
+    font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:.1em;
+    color:var(--ink-soft); text-transform:uppercase; margin-bottom:10px;
+  }
+  svg.trail{width:100%; height:150px; display:block;}
+  .phase-caption{
+    display:flex; justify-content:space-between; margin-top:4px; padding:0 4px 12px;
+    font-family:'IBM Plex Mono', monospace; font-size:10.5px; color:var(--ink-soft);
+  }
+  .phase-caption span{width:20%; text-align:center;}
+
+  .feedback-card{
+    border-radius:6px; padding:16px 18px; margin-bottom:26px; border:1px solid var(--line);
+    font-size:14.5px; line-height:1.6; background:var(--sage-soft); color:var(--ink);
+  }
+  .feedback-card.behind{background:var(--coral-soft);}
+  .feedback-card b{font-weight:700;}
+
+  .sync-bar{
+    display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+    background:#fff; border:1px solid var(--line); border-radius:6px; padding:12px 16px; margin-bottom:30px;
+    font-size:13px;
+  }
+  .sync-bar input[type=password]{
+    font-family:'IBM Plex Mono', monospace; font-size:12.5px; padding:6px 8px;
+    border:1px solid var(--line); border-radius:4px; flex:1; min-width:160px;
+  }
+  .sync-bar button{
+    font-family:'Noto Sans KR', sans-serif; font-size:13px; font-weight:500;
+    border:none; border-radius:4px; padding:7px 14px; cursor:pointer;
+    background:var(--ink); color:#fff;
+  }
+  .sync-bar button.secondary{background:transparent; color:var(--ink-soft); border:1px solid var(--line);}
+  .sync-bar button:disabled{opacity:.4; cursor:not-allowed;}
+  .sync-status{font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:var(--ink-soft);}
+
+  .phase{
+    background:#fff; border:1px solid var(--line); border-radius:6px;
+    margin-bottom:20px; overflow:hidden;
+  }
+  .phase-head{
+    display:flex; align-items:center; gap:14px; padding:16px 20px; cursor:pointer;
+    border-left:6px solid var(--amber);
+  }
+  .phase-head .pnum{
+    font-family:'IBM Plex Mono', monospace; font-size:13px; color:var(--ink-soft); width:34px;
+  }
+  .phase-head h2{
+    font-family:'Noto Serif KR', serif; font-size:18px; margin:0; flex:1; font-weight:700;
+  }
+  .phase-head .prange{
+    font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:var(--ink-soft);
+  }
+  .phase-progress{
+    font-family:'IBM Plex Mono', monospace; font-size:12.5px; color:var(--ink-soft); width:52px; text-align:right;
+  }
+  .phase-bar-track{height:4px; background:var(--paper-line);}
+  .phase-bar-fill{height:100%; background:var(--amber); transition:width .3s ease;}
+  .phase-body{padding:6px 20px 16px 40px; display:none;}
+  .phase.open .phase-body{display:block;}
+  .phase.done .phase-head{border-left-color:var(--sage);}
+  .phase.done .phase-bar-fill{background:var(--sage);}
+
+  .week{margin:14px 0;}
+  .week-title{
+    font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--ink-soft);
+    margin-bottom:6px; letter-spacing:.02em;
+  }
+  .task{
+    display:flex; align-items:flex-start; gap:10px; padding:6px 0; font-size:14.5px; line-height:1.5;
+  }
+  .task input[type=checkbox]{
+    margin-top:3px; width:17px; height:17px; accent-color:var(--sage); flex-shrink:0; cursor:pointer;
+  }
+  .task label{cursor:pointer;}
+  .task.done label{color:var(--ink-soft); text-decoration:line-through;}
+
+  footer{
+    text-align:center; margin-top:40px; font-family:'IBM Plex Mono', monospace;
+    font-size:11px; color:var(--ink-soft);
+  }
+  .toast{
+    position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px);
+    background:var(--ink); color:#fff; padding:10px 18px; border-radius:6px; font-size:13.5px;
+    opacity:0; pointer-events:none; transition:all .25s ease; z-index:50;
+  }
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+
+  @media (max-width:560px){
+    h1{font-size:24px;}
+    .dday-num{font-size:26px;}
+    .phase-head{padding:14px;}
+    .phase-body{padding:6px 14px 14px 22px;}
+  }
+</style>
+</head>
+<body>
+<div class="bgline"></div>
+<div class="wrap">
+
+  <header class="top">
+    <div>
+      <div class="eyebrow">서울시교육청 영재교육원 · 남부 초등 수학 · 2027학년도 선발전형 대비</div>
+      <h1>태원이의 준비 노트</h1>
+    </div>
+    <div class="dday-box">
+      <div class="dday-num" id="ddayNum">D-000</div>
+      <div class="dday-label" id="ddayLabel">시험 예정일 기준 (수정 가능)</div>
+    </div>
+  </header>
+
+  <div class="trail-card">
+    <div class="trail-title">준비 여정</div>
+    <svg class="trail" viewBox="0 0 900 150" id="trailSvg">
+      <path id="trailPath" d="M 30 110 C 200 40, 320 150, 460 90 S 700 20, 870 70" fill="none" stroke="#D8CFB8" stroke-width="3" stroke-dasharray="1 10" stroke-linecap="round"/>
+      <g id="trailMarkers"></g>
+      <g id="trailFlags"></g>
+    </svg>
+    <div class="phase-caption" id="phaseCaption"></div>
+  </div>
+
+  <div class="feedback-card" id="feedbackCard">계획을 불러오는 중...</div>
+
+  <div class="sync-bar">
+    <span class="sync-status" id="syncStatus">불러오는 중…</span>
+    <input type="password" id="tokenInput" placeholder="GitHub 토큰 (저장할 때만 필요)">
+    <button id="saveTokenBtn" class="secondary">토큰 저장</button>
+    <button id="syncBtn">GitHub에 저장</button>
+    <button id="reloadBtn" class="secondary">다시 불러오기</button>
+  </div>
+
+  <div id="phaseList"></div>
+
+  <footer>hunsak/taewon-gifted-prep · 데이터는 브라우저와 GitHub 저장소에 저장됩니다</footer>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ---------------- 설정 ---------------- */
+const GH_OWNER = "hunsak";
+const GH_REPO  = "taewon-gifted-prep";
+const GH_PATH  = "data.json";
+const GH_BRANCH = "main";
+
+const START_DATE = "2026-07-27";
+const EXAM_DATE_DEFAULT = "2026-12-05"; // 작년 시험일(2025-12-06) 패턴 참고 추정치, 공고 나오면 수정하세요
+
+/* ---------------- 학습 계획 데이터 ---------------- */
+const PLAN = [
+  {
+    id:"p1", title:"1구간 · 기초 체력 다지기", range:"7/28 – 8/31", color:"amber",
+    weeks:[
+      {label:"1주차 (7/28-8/3)", tasks:[
+        "분수·소수 사칙연산, 약수와 배수 심화 개념 진단하기",
+        "사고력수학 교재 정하고 1단원 풀기 (팩토/최상위사고력 등)",
+        "오답노트 만들기 (틀린 문제를 유형별로 분류)"
+      ]},
+      {label:"2주차 (8/4-8/10)", tasks:[
+        "비와 비율, 규칙과 대응 심화 문제 풀기",
+        "사고력수학 교재 2~3단원 진행",
+        "매일 사고력 문제 1개씩 풀기 루틴 시작 (7일 연속 도전)"
+      ]},
+      {label:"3주차 (8/11-8/17)", tasks:[
+        "도형의 넓이·둘레, 다각형 성질 심화 문제 풀기",
+        "사고력수학 교재 4~5단원 진행",
+        "작년 12월 시험 오답 다시 풀어보고 부족했던 유형 파악하기"
+      ]},
+      {label:"4주차 (8/18-8/24)", tasks:[
+        "수의 규칙성, 경우의 수 기초 심화 문제 풀기",
+        "사고력수학 교재 1권 마무리하기",
+        "풀이과정을 말로 설명하며 쓰는 서술형 연습 시작하기"
+      ]},
+      {label:"5주차 (8/25-8/31)", tasks:[
+        "8월 틀린 유형 집중 복습하기",
+        "오답노트 1회독하기",
+        "2구간 대비용 영재성검사 기출유형 교재 준비하기"
+      ]}
+    ]
+  },
+  {
+    id:"p2", title:"2구간 · 영재성검사 & 원서 준비", range:"9/1 – 9/28", color:"amber",
+    weeks:[
+      {label:"6주차 (9/1-9/7)", tasks:[
+        "영재성검사 기출유형 교재 1~2단원 풀기 (수학 사고력 문제)",
+        "서울시교육청 2027학년도 선발 공고 확인하기 (ssei.sen.go.kr)",
+        "담임선생님께 영재교육원 지원 의사 상담하기 (추천서 필요 여부 확인)"
+      ]},
+      {label:"7주차 (9/8-9/14)", tasks:[
+        "영재성검사 창의성 문제 연습하기 (다양한 답 찾기, 확산적 사고)",
+        "자기소개서 초안 작성 시작하기 (수학에 대한 흥미·경험 정리)"
+      ]},
+      {label:"8주차 (9/15-9/21)", tasks:[
+        "영재성검사 기출유형 교재 나머지 단원 진행",
+        "자기소개서 다듬고 부모님과 함께 피드백하기",
+        "원서 접수 서류 체크하기 (신청서·자기소개서·추천서 등)"
+      ]},
+      {label:"9주차 (9/22-9/28)", tasks:[
+        "9월 누적 오답 복습하기",
+        "공고 확인 후 기한 내 원서 접수 완료하기",
+        "창의적 문제해결력 유형 예습 시작하기"
+      ]}
+    ]
+  },
+  {
+    id:"p3", title:"3구간 · 창의적 문제해결력 훈련", range:"9/29 – 10/26", color:"amber",
+    weeks:[
+      {label:"10주차 (9/29-10/5)", tasks:[
+        "창의적 문제해결력 기출유형 교재 1~2회분 풀기",
+        "실생활 소재 수학 문제(측정·통계·확률 상황) 연습하기"
+      ]},
+      {label:"11주차 (10/6-10/12)", tasks:[
+        "창의적 문제해결력 기출유형 3~4회분 풀기",
+        "수학+과학 융합 사고 문제 연습하기",
+        "채점 기준을 고려해 풀이과정 논리적으로 서술하는 연습하기"
+      ]},
+      {label:"12주차 (10/13-10/19)", tasks:[
+        "작년 남부교육지원청 기출 유형 다시 분석하기",
+        "약점으로 확인된 유형 집중 문제풀이 하기"
+      ]},
+      {label:"13주차 (10/20-10/26)", tasks:[
+        "창의적 문제해결력 모의고사 1회 풀기 (90분, 시간 재고 풀기)",
+        "채점기준표로 스스로 채점하고 오답 분석하기"
+      ]}
+    ]
+  },
+  {
+    id:"p4", title:"4구간 · 실전 모의고사 & 총정리", range:"10/27 – 11/23", color:"amber",
+    weeks:[
+      {label:"14주차 (10/27-11/2)", tasks:[
+        "영재성검사+창의적문제해결력 통합 모의고사 1회 풀기",
+        "오답노트 정리하고 취약 유형 리스트업하기"
+      ]},
+      {label:"15주차 (11/3-11/9)", tasks:[
+        "취약 유형 집중 보완 학습하기",
+        "모의고사 2회차 풀기 (다른 회차 기출)"
+      ]},
+      {label:"16주차 (11/10-11/16)", tasks:[
+        "반복되는 실수 패턴 확인하고 오답 재점검하기",
+        "모의고사 3회차를 시험 당일과 같은 시간대에 풀어보기"
+      ]},
+      {label:"17주차 (11/17-11/23)", tasks:[
+        "최종 모의고사 4회차 풀기",
+        "시험 당일에 맞춰 수면·컨디션 관리 시작하기"
+      ]}
+    ]
+  },
+  {
+    id:"p5", title:"5구간 · 시험 당일 & 면접 대비", range:"11/24 – 시험일 이후", color:"amber",
+    weeks:[
+      {label:"18주차 (11/24-11/30)", tasks:[
+        "준비물 체크하기 (수험표·필기구·신분증 등)",
+        "고사장 위치와 이동 시간 미리 확인하기",
+        "오답노트 총복습하고 시험 전날 루틴 정하기 (일찍 자기, 가벼운 복습만)"
+      ]},
+      {label:"19주차 (시험 이후, 필기 합격 시)", tasks:[
+        "면접 예상 질문 정리하기 (지원동기, 수학 관련 경험)",
+        "기본 수학 개념을 말로 설명하는 구술 연습하기",
+        "부모님과 모의 면접 연습하기"
+      ]}
+    ]
+  }
+];
+
+/* ---------------- 상태 ---------------- */
+let state = { checked:{}, examDate: EXAM_DATE_DEFAULT, updatedAt:null };
+let sha = null;
+
+function allTaskIds(){
+  const ids=[];
+  PLAN.forEach(p=>p.weeks.forEach((w,wi)=>w.tasks.forEach((t,ti)=>ids.push(p.id+"_"+wi+"_"+ti))));
+  return ids;
+}
+const TOTAL_TASKS = allTaskIds().length;
+
+/* ---------------- 렌더링 ---------------- */
+function renderDday(){
+  const today = new Date(); today.setHours(0,0,0,0);
+  const exam = new Date(state.examDate); exam.setHours(0,0,0,0);
+  const diff = Math.round((exam-today)/86400000);
+  document.getElementById('ddayNum').textContent = diff>=0 ? ("D-"+diff) : ("D+"+Math.abs(diff));
+  document.getElementById('ddayLabel').textContent = "시험 예정일 "+state.examDate+" 기준 (추정, 공고 확정 시 수정)";
+}
+
+function phaseDoneCount(phase){
+  let done=0, total=0;
+  phase.weeks.forEach((w,wi)=>w.tasks.forEach((t,ti)=>{
+    total++;
+    if(state.checked[phase.id+"_"+wi+"_"+ti]) done++;
+  }));
+  return {done, total};
+}
+
+function overallProgress(){
+  let done=0;
+  allTaskIds().forEach(id=>{ if(state.checked[id]) done++; });
+  return { done, total: TOTAL_TASKS, pct: TOTAL_TASKS? done/TOTAL_TASKS : 0 };
+}
+
+function renderTrail(){
+  const svg = document.getElementById('trailSvg');
+  const path = document.getElementById('trailPath');
+  const markersG = document.getElementById('trailMarkers');
+  const flagsG = document.getElementById('trailFlags');
+  markersG.innerHTML=""; flagsG.innerHTML="";
+  const len = path.getTotalLength();
+  const n = PLAN.length;
+
+  // phase checkpoint flags, evenly spaced
+  PLAN.forEach((p,i)=>{
+    const frac = (i+1)/(n); // end of each phase segment
+    const pt = path.getPointAtLength(len*frac*0.94);
+    const {done,total} = phaseDoneCount(p);
+    const isDone = done===total;
+    const color = isDone ? "var(--sage)" : "#fff";
+    const stroke = isDone ? "var(--sage)" : "var(--amber)";
+    flagsG.innerHTML += `<circle cx="${pt.x}" cy="${pt.y}" r="9" fill="${isDone?'#5C7A5E':'#fff'}" stroke="${isDone?'#5C7A5E':'#C68A2E'}" stroke-width="2.5"/>`
+      + (isDone? `<path d="M ${pt.x-4} ${pt.y} l 3 3 l 5 -6" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>` : `<text x="${pt.x}" y="${pt.y+4}" font-family="IBM Plex Mono" font-size="10" text-anchor="middle" fill="#C68A2E">${i+1}</text>`);
+  });
+
+  // exam flag at very end
+  const endPt = path.getPointAtLength(len);
+  flagsG.innerHTML += `<line x1="${endPt.x}" y1="${endPt.y-24}" x2="${endPt.x}" y2="${endPt.y+8}" stroke="var(--ink)" stroke-width="2"/>
+    <path d="M ${endPt.x} ${endPt.y-24} l 22 6 l -22 6 z" fill="var(--coral)"/>`;
+
+  // current position marker based on overall progress
+  const {pct} = overallProgress();
+  const todayFrac = (function(){
+    const today=new Date(); const start=new Date(START_DATE); const exam=new Date(state.examDate);
+    const elapsed = (today-start)/(exam-start);
+    return Math.max(0, Math.min(1, elapsed));
+  })();
+  // blend: mostly time-based position, nudged by actual progress
+  const posFrac = Math.max(0, Math.min(0.98, todayFrac*0.6 + pct*0.4));
+  const curPt = path.getPointAtLength(len*posFrac);
+  markersG.innerHTML = `<circle cx="${curPt.x}" cy="${curPt.y}" r="7" fill="var(--coral)"/>
+    <circle cx="${curPt.x}" cy="${curPt.y}" r="12" fill="none" stroke="var(--coral)" stroke-width="1.5" opacity="0.5"/>`;
+
+  const cap = document.getElementById('phaseCaption');
+  cap.innerHTML = PLAN.map(p=>`<span>${p.title.split(' · ')[0]}</span>`).join("");
+}
+
+function feedbackMessage(){
+  const {done,total,pct} = overallProgress();
+  const today=new Date(); const start=new Date(START_DATE); const exam=new Date(state.examDate);
+  const expected = Math.max(0, Math.min(1, (today-start)/(exam-start)));
+  const el = document.getElementById('feedbackCard');
+  if(total===0){ el.textContent="계획 데이터가 없습니다."; return; }
+  if(today < start){
+    el.className="feedback-card";
+    el.innerHTML = `<b>시작 전이에요.</b> ${state.examDate}까지 차근차근 준비해봐요. 첫 주차부터 하나씩 체크해나가면 됩니다.`;
+    return;
+  }
+  const diff = pct - expected;
+  let msg, cls="feedback-card";
+  if(diff >= 0.07){
+    msg = `<b>계획보다 앞서가고 있어요!</b> 전체 ${total}개 중 ${done}개(${Math.round(pct*100)}%)를 완료했어요. 지금 속도라면 여유 있게 대비할 수 있어요. 무리하지 말고 이해도를 다지는 데 시간을 써도 좋아요.`;
+  } else if(diff >= -0.08){
+    msg = `<b>계획대로 잘 진행되고 있어요.</b> 전체 ${total}개 중 ${done}개(${Math.round(pct*100)}%)를 완료했어요. 이번 주 항목부터 이어가면 됩니다.`;
+  } else {
+    cls += " behind";
+    msg = `<b>계획보다 조금 뒤처져 있어요.</b> 전체 ${total}개 중 ${done}개(${Math.round(pct*100)}%)만 완료했어요. 밀린 주차의 항목부터 먼저 채워보는 게 좋겠어요. 급하게 몰아치기보다 하루 1~2개씩 꾸준히 따라잡아 봐요.`;
+  }
+  el.className = cls;
+  el.innerHTML = msg;
+}
+
+function renderPhases(){
+  const wrap = document.getElementById('phaseList');
+  wrap.innerHTML = "";
+  PLAN.forEach((p, pi)=>{
+    const {done,total} = phaseDoneCount(p);
+    const isDone = total>0 && done===total;
+    const div = document.createElement('div');
+    div.className = "phase" + (isDone?" done":"") + (pi===currentOpenPhase()?" open":"");
+    div.innerHTML = `
+      <div class="phase-head" data-idx="${pi}">
+        <div class="pnum">${String(pi+1).padStart(2,'0')}</div>
+        <h2>${p.title}</h2>
+        <div class="prange">${p.range}</div>
+        <div class="phase-progress">${done}/${total}</div>
+      </div>
+      <div class="phase-bar-track"><div class="phase-bar-fill" style="width:${total?done/total*100:0}%"></div></div>
+      <div class="phase-body">
+        ${p.weeks.map((w,wi)=>`
+          <div class="week">
+            <div class="week-title">${w.label}</div>
+            ${w.tasks.map((t,ti)=>{
+              const id = p.id+"_"+wi+"_"+ti;
+              const checked = !!state.checked[id];
+              return `<div class="task ${checked?'done':''}">
+                <input type="checkbox" id="chk_${id}" data-id="${id}" ${checked?'checked':''}>
+                <label for="chk_${id}">${t}</label>
+              </div>`;
+            }).join("")}
+          </div>
+        `).join("")}
+      </div>
+    `;
+    wrap.appendChild(div);
+  });
+
+  wrap.querySelectorAll('.phase-head').forEach(h=>{
+    h.addEventListener('click', ()=>{
+      const parent = h.closest('.phase');
+      parent.classList.toggle('open');
+    });
+  });
+  wrap.querySelectorAll('input[type=checkbox]').forEach(cb=>{
+    cb.addEventListener('change', onTaskToggle);
+  });
+}
+
+function currentOpenPhase(){
+  // open the first phase that isn't fully done
+  for(let i=0;i<PLAN.length;i++){
+    const {done,total} = phaseDoneCount(PLAN[i]);
+    if(done<total) return i;
+  }
+  return PLAN.length-1;
+}
+
+function onTaskToggle(e){
+  const id = e.target.dataset.id;
+  state.checked[id] = e.target.checked;
+  saveLocal();
+  const wasPhaseJustCompleted = checkPhaseCompletion(id);
+  renderAll(false);
+  if(wasPhaseJustCompleted){
+    showToast(wasPhaseJustCompleted);
+  } else {
+    showToast(e.target.checked ? "체크 완료! 잘하고 있어요." : "체크를 해제했어요.");
+  }
+}
+
+function checkPhaseCompletion(taskId){
+  const phaseId = taskId.split('_')[0];
+  const phase = PLAN.find(p=>p.id===phaseId);
+  const {done,total} = phaseDoneCount(phase);
+  if(done===total){
+    const idx = PLAN.indexOf(phase);
+    const msgs = [
+      "기초 체력 완성! 이제 영재성검사 유형으로 넘어갈 준비가 됐어요.",
+      "영재성검사 & 원서 준비 완료! 창의적 문제해결력 훈련으로 넘어가요.",
+      "창의적 문제해결력 훈련 완료! 이제 실전 모의고사로 마무리해봐요.",
+      "실전 모의고사 완료! 컨디션 관리하며 시험 당일을 준비해요.",
+      "모든 구간을 완료했어요! 태원이, 정말 수고 많았어요."
+    ];
+    return "🏁 " + PLAN[idx].title + " 완료! " + (msgs[idx]||"");
+  }
+  return null;
+}
+
+function showToast(text){
+  const t = document.getElementById('toast');
+  t.textContent = text;
+  t.classList.add('show');
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(()=>t.classList.remove('show'), 2600);
+}
+
+function renderAll(rerenderPhases=true){
+  renderDday();
+  renderTrail();
+  feedbackMessage();
+  if(rerenderPhases) renderPhases();
+  else {
+    // just update progress bars/numbers without collapsing open state
+    PLAN.forEach((p,pi)=>{
+      const {done,total} = phaseDoneCount(p);
+      const el = document.querySelectorAll('.phase')[pi];
+      if(!el) return;
+      el.querySelector('.phase-progress').textContent = done+"/"+total;
+      el.querySelector('.phase-bar-fill').style.width = (total?done/total*100:0)+"%";
+      el.classList.toggle('done', total>0 && done===total);
+      const cb = el.querySelector(`input[data-id]`);
+    });
+    // update done/strike state per task row
+    document.querySelectorAll('.task').forEach(row=>{
+      const cb = row.querySelector('input[type=checkbox]');
+      row.classList.toggle('done', cb.checked);
+    });
+  }
+}
+
+/* ---------------- 저장 (localStorage) ---------------- */
+function saveLocal(){
+  localStorage.setItem('taewon_gifted_prep_state', JSON.stringify(state));
+}
+function loadLocal(){
+  const raw = localStorage.getItem('taewon_gifted_prep_state');
+  if(raw){ try{ Object.assign(state, JSON.parse(raw)); }catch(e){} }
+}
+
+/* ---------------- GitHub 동기화 ---------------- */
+function getToken(){ return localStorage.getItem('gh_token_gifted') || ""; }
+function setToken(t){ localStorage.setItem('gh_token_gifted', t); }
+
+async function loadFromGithub(){
+  const statusEl = document.getElementById('syncStatus');
+  statusEl.textContent = "GitHub에서 불러오는 중…";
+  try{
+    const res = await fetch(`https://raw.githubusercontent.com/${GH_OWNER}/${GH_REPO}/${GH_BRANCH}/${GH_PATH}?t=${Date.now()}`);
+    if(res.ok){
+      const remote = await res.json();
+      state = Object.assign({checked:{}, examDate: EXAM_DATE_DEFAULT}, remote);
+      saveLocal();
+      statusEl.textContent = "GitHub에서 불러왔어요 (마지막 저장: "+(state.updatedAt? new Date(state.updatedAt).toLocaleString('ko-KR') : '알 수 없음')+")";
+    } else if(res.status===404){
+      statusEl.textContent = "GitHub에 아직 저장된 데이터가 없어요 (이 브라우저 기록을 사용 중)";
+    } else {
+      statusEl.textContent = "불러오기 실패 (상태 "+res.status+") — 이 브라우저 기록을 사용 중";
+    }
+  }catch(err){
+    statusEl.textContent = "네트워크 오류로 불러오지 못했어요 — 이 브라우저 기록을 사용 중";
+  }
+  renderAll();
+}
+
+async function saveToGithub(){
+  const token = getToken();
+  const statusEl = document.getElementById('syncStatus');
+  if(!token){
+    showToast("먼저 GitHub 토큰을 입력하고 저장해주세요.");
+    return;
+  }
+  statusEl.textContent = "GitHub에 저장하는 중…";
+  try{
+    // get current sha if exists
+    let existingSha = null;
+    const getRes = await fetch(`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_PATH}?ref=${GH_BRANCH}`, {
+      headers:{ Authorization:`token ${token}` }
+    });
+    if(getRes.ok){
+      const info = await getRes.json();
+      existingSha = info.sha;
+    }
+    state.updatedAt = new Date().toISOString();
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(state, null, 2))));
+    const body = {
+      message: "태원이 준비 노트 업데이트 " + new Date().toLocaleString('ko-KR'),
+      content, branch: GH_BRANCH
+    };
+    if(existingSha) body.sha = existingSha;
+    const putRes = await fetch(`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_PATH}`, {
+      method:"PUT",
+      headers:{ Authorization:`token ${token}`, "Content-Type":"application/json" },
+      body: JSON.stringify(body)
+    });
+    if(putRes.ok){
+      statusEl.textContent = "GitHub에 저장 완료! ("+new Date().toLocaleString('ko-KR')+")";
+      showToast("GitHub에 저장했어요.");
+      saveLocal();
+    } else {
+      const errBody = await putRes.text();
+      statusEl.textContent = "저장 실패 (상태 "+putRes.status+")";
+      showToast("저장에 실패했어요. 토큰 권한(repo)을 확인해주세요.");
+      console.error(errBody);
+    }
+  }catch(err){
+    statusEl.textContent = "네트워크 오류로 저장하지 못했어요";
+    console.error(err);
+  }
+}
+
+/* ---------------- 초기화 ---------------- */
+document.getElementById('tokenInput').value = getToken();
+document.getElementById('saveTokenBtn').addEventListener('click', ()=>{
+  const v = document.getElementById('tokenInput').value.trim();
+  setToken(v);
+  showToast(v? "토큰을 이 브라우저에 저장했어요." : "토큰을 삭제했어요.");
+});
+document.getElementById('syncBtn').addEventListener('click', saveToGithub);
+document.getElementById('reloadBtn').addEventListener('click', loadFromGithub);
+
+loadLocal();
+renderAll();
+loadFromGithub();
+
+if('serviceWorker' in navigator){
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('sw.js').catch(()=>{});
+  });
+}
+</script>
+</body>
+</html>
