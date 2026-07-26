@@ -93,12 +93,8 @@
 
   .sync-bar{
     display:flex; gap:10px; align-items:center; flex-wrap:wrap;
-    background:#fff; border:1px solid var(--line); border-radius:6px; padding:12px 16px; margin-bottom:30px;
+    background:#fff; border:1px solid var(--line); border-radius:6px; padding:12px 16px; margin-bottom:14px;
     font-size:13px;
-  }
-  .sync-bar input[type=password]{
-    font-family:'IBM Plex Mono', monospace; font-size:16px; padding:6px 8px;
-    border:1px solid var(--line); border-radius:4px; flex:1; min-width:160px;
   }
   .sync-bar button{
     font-family:'Noto Sans KR', sans-serif; font-size:13px; font-weight:500;
@@ -107,7 +103,33 @@
   }
   .sync-bar button.secondary{background:transparent; color:var(--ink-soft); border:1px solid var(--line);}
   .sync-bar button:disabled{opacity:.4; cursor:not-allowed;}
-  .sync-status{font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:var(--ink-soft);}
+  .sync-status{font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:var(--ink-soft); flex:1; min-width:140px;}
+  .gear-btn{
+    margin-left:auto; background:transparent !important; color:var(--ink-soft) !important;
+    border:1px solid var(--line) !important; font-size:16px !important; padding:6px 10px !important;
+    line-height:1;
+  }
+
+  .settings-panel{
+    display:none; background:#fff; border:1px solid var(--line); border-radius:6px;
+    padding:16px; margin-bottom:26px; font-size:13px;
+  }
+  .settings-panel.open{display:block;}
+  .settings-panel .settings-title{
+    font-family:'IBM Plex Mono', monospace; font-size:11.5px; letter-spacing:.06em;
+    color:var(--ink-soft); text-transform:uppercase; margin-bottom:10px;
+  }
+  .settings-panel .settings-desc{color:var(--ink-soft); font-size:12.5px; margin-bottom:10px; line-height:1.5;}
+  .settings-panel .settings-row{display:flex; gap:10px; flex-wrap:wrap;}
+  .settings-panel input[type=password]{
+    font-family:'IBM Plex Mono', monospace; font-size:16px; padding:6px 8px;
+    border:1px solid var(--line); border-radius:4px; flex:1; min-width:160px;
+  }
+  .settings-panel button{
+    font-family:'Noto Sans KR', sans-serif; font-size:13px; font-weight:500;
+    border:1px solid var(--line); border-radius:4px; padding:7px 14px; cursor:pointer;
+    background:var(--ink); color:#fff;
+  }
 
   .phase{
     background:#fff; border:1px solid var(--line); border-radius:6px;
@@ -198,10 +220,18 @@
 
   <div class="sync-bar">
     <span class="sync-status" id="syncStatus">불러오는 중…</span>
-    <input type="password" id="tokenInput" placeholder="GitHub 토큰 (저장할 때만 필요)">
-    <button id="saveTokenBtn" class="secondary">토큰 저장</button>
     <button id="syncBtn">GitHub에 저장</button>
     <button id="reloadBtn" class="secondary">다시 불러오기</button>
+    <button id="gearBtn" class="gear-btn" title="설정">⚙</button>
+  </div>
+
+  <div class="settings-panel" id="settingsPanel">
+    <div class="settings-title">설정 · GitHub 토큰</div>
+    <div class="settings-desc">토큰을 등록해두면 체크할 때마다 자동으로 GitHub에 저장돼요. 조회는 토큰 없이도 되고, 저장할 때만 필요해요. 이 브라우저에만 저장되고 GitHub나 다른 사람에게 노출되지 않아요.</div>
+    <div class="settings-row">
+      <input type="password" id="tokenInput" placeholder="GitHub 토큰 붙여넣기">
+      <button id="saveTokenBtn">토큰 저장</button>
+    </div>
   </div>
 
   <div id="phaseList"></div>
@@ -506,6 +536,19 @@ function onTaskToggle(e){
   } else {
     showToast(e.target.checked ? "체크 완료! 잘하고 있어요." : "체크를 해제했어요.");
   }
+  scheduleAutoSave();
+}
+
+let autoSaveTimer = null;
+function scheduleAutoSave(){
+  const statusEl = document.getElementById('syncStatus');
+  if(!getToken()){
+    statusEl.textContent = "이 브라우저에 저장됨 (자동 GitHub 저장을 켜려면 ⚙ 에서 토큰 등록)";
+    return;
+  }
+  statusEl.textContent = "잠시 후 자동 저장돼요…";
+  clearTimeout(autoSaveTimer);
+  autoSaveTimer = setTimeout(()=>{ saveToGithub(); }, 1500);
 }
 
 function checkPhaseCompletion(taskId){
@@ -645,6 +688,9 @@ document.getElementById('saveTokenBtn').addEventListener('click', ()=>{
   setToken(v);
   showToast(v? "토큰을 이 브라우저에 저장했어요." : "토큰을 삭제했어요.");
 });
+document.getElementById('gearBtn').addEventListener('click', ()=>{
+  document.getElementById('settingsPanel').classList.toggle('open');
+});
 document.getElementById('syncBtn').addEventListener('click', saveToGithub);
 document.getElementById('reloadBtn').addEventListener('click', loadFromGithub);
 
@@ -652,7 +698,11 @@ loadLocal();
 renderAll();
 loadFromGithub();
 
-if('serviceWorker' in navigator){
+document.addEventListener('visibilitychange', ()=>{
+  if(document.visibilityState === 'visible'){
+    loadFromGithub();
+  }
+});
   window.addEventListener('load', ()=>{
     navigator.serviceWorker.register('sw.js').catch(()=>{});
   });
