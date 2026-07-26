@@ -1,9 +1,18 @@
 {
   "name": "태원이 영재교육원 준비 노트",
   "short_name": "영재준비노트",
+  "description": "서울시교육청 영재교육원(남부 초등 수학) 재도전 준비 계획 체크리스트",
   "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#FAF6EC",
   "theme_color": "#1F2E3D",
-  "icons": []
+  "lang": "ko",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
 }
