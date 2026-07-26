@@ -159,6 +159,15 @@
   .phase.done .phase-bar-fill{background:var(--sage);}
 
   .week{margin:14px 0;}
+
+  .coach-note{
+    background:var(--amber-soft); border-left:4px solid var(--amber); border-radius:4px;
+    padding:12px 14px; margin:10px 0 16px; font-size:13px; line-height:1.65; color:var(--ink);
+  }
+  .coach-note .coach-label{
+    font-family:'IBM Plex Mono', monospace; font-size:10.5px; letter-spacing:.08em;
+    color:var(--amber); text-transform:uppercase; margin-bottom:5px; font-weight:600;
+  }
   .week-title{
     font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--ink-soft);
     margin-bottom:6px; letter-spacing:.02em;
@@ -255,6 +264,7 @@ const EXAM_DATE_DEFAULT = "2026-12-05"; // 작년 시험일(2025-12-06) 패턴 �
 const PLAN = [
   {
     id:"p1", title:"1구간 · 기초 체력 다지기", range:"7/28 – 8/31", color:"amber",
+    note:"이 구간의 목표는 '완벽하게 다 맞히기'가 아니라 '개념의 구멍을 찾아 메우기'예요. 어려운 문제를 오래 붙잡고 씨름하는 것도 좋은 훈련이니, 바로 답을 알려주기보다 스스로 시도할 시간을 충분히 주세요. 반대로 너무 쉬워서 지루해하면 억지로 다 풀게 하기보다 다음 단원으로 넘어가도 괜찮아요.",
     weeks:[
       {label:"1주차 (7/28-8/3)", tasks:[
         "필즈 고급Ⅰ상 수와 연산 파트 풀기 (연속수의 성질 · 수와 숫자의 합 · 배수판정법 · 약수의 개수 · 끝수와 0의 개수 · 수와 식 만들기 · 진법 활용)",
@@ -285,6 +295,7 @@ const PLAN = [
   },
   {
     id:"p2", title:"2구간 · 영재성검사 & 원서 준비", range:"9/1 – 9/28", color:"amber",
+    note:"영재성검사(창의성 문제)에는 정답이 하나가 아니에요. 태원이가 예상과 다른 답을 내놓아도 '틀렸다'고 바로 고쳐주지 마시고, 왜 그렇게 생각했는지 먼저 물어봐주세요. 답의 개수보다 얼마나 다양한 관점에서 생각해봤는지가 더 중요한 영역이에요. 자기소개서는 아이 말투를 최대한 살려서, 부모님이 대신 써주지 않는 게 평가에 유리합니다.",
     weeks:[
       {label:"6주차 (9/1-9/7)", tasks:[
         "영재성검사 기출유형 교재 1~2단원 풀기 (수학 사고력 문제)",
@@ -309,6 +320,7 @@ const PLAN = [
   },
   {
     id:"p3", title:"3구간 · 창의적 문제해결력 훈련", range:"9/29 – 10/26", color:"amber",
+    note:"13주차에 처음 기출/모의고사를 풀어보는데, 이건 합격·불합격을 가늠하는 시험이 아니라 '어디가 약한지 찾는 진단'이에요. 아직 3~4구간 훈련 전이라 점수가 낮게 나오는 게 오히려 자연스럽습니다. 점수 자체보다 '개념을 몰라서 틀렸는지 / 시간이 부족했는지 / 유형이 낯설어서 못 풀었는지'를 구분해서 오답노트에 적어두세요. 이게 남은 구간에서 무엇을 더 훈련할지 알려주는 나침반이 됩니다. 다만 1구간에서 다뤘던 기초 개념까지 흔들린다면, 다음 구간으로 넘어가기 전에 그 부분만 1~2주 더 복습하고 가는 게 좋아요.",
     weeks:[
       {label:"10주차 (9/29-10/5)", tasks:[
         "창의적 문제해결력 기출유형 교재 1~2회분 풀기",
@@ -331,6 +343,7 @@ const PLAN = [
   },
   {
     id:"p4", title:"4구간 · 실전 모의고사 & 총정리", range:"10/27 – 11/23", color:"amber",
+    note:"모의고사를 반복하다 보면 같은 유형에서 계속 틀리는 게 보일 거예요. 이건 '재능이 부족하다'는 신호가 아니라 '정확히 어디를 더 다듬어야 하는지' 알려주는 신호예요. 반복되는 실수는 나무라기보다 함께 원인을 찾아보는 편이 아이의 자신감을 지키는 데 훨씬 도움이 됩니다. 이 시기엔 새 유형을 더 배우기보다, 이미 배운 걸 실수 없이 풀어내는 정확도를 높이는 데 집중하는 게 효율적이에요.",
     weeks:[
       {label:"14주차 (10/27-11/2)", tasks:[
         "영재성검사+창의적문제해결력 통합 모의고사 1회 풀기",
@@ -352,6 +365,7 @@ const PLAN = [
   },
   {
     id:"p5", title:"5구간 · 시험 당일 & 면접 대비", range:"11/24 – 시험일 이후", color:"amber",
+    note:"시험 전날엔 새 문제를 풀기보다 이미 아는 걸 편안하게 훑어보는 정도가 좋아요. 당일 아침엔 결과에 대한 부담보다 '그동안 준비 잘해왔다'는 확인을 해주시는 게 아이 컨디션에 도움이 됩니다. 면접에서는 답을 외운 티가 나는 것보다 자기 생각을 자기 말로 풀어내는 게 더 좋은 인상을 줘요. 그리고 혹시 이번에 결과가 안 좋더라도, 그게 태원이의 실력이나 가능성을 판단하는 전부는 아니라는 걸 아이가 느낄 수 있게 해주세요.",
     weeks:[
       {label:"18주차 (11/24-11/30)", tasks:[
         "준비물 체크하기 (수험표·필기구·신분증 등)",
@@ -487,6 +501,7 @@ function renderPhases(){
       </div>
       <div class="phase-bar-track"><div class="phase-bar-fill" style="width:${total?done/total*100:0}%"></div></div>
       <div class="phase-body">
+        ${p.note ? `<div class="coach-note"><div class="coach-label">💡 학부모 가이드</div>${p.note}</div>` : ""}
         ${p.weeks.map((w,wi)=>`
           <div class="week">
             <div class="week-title">${w.label}</div>
