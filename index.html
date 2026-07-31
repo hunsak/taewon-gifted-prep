@@ -151,8 +151,17 @@
   .phase-progress{
     font-family:'IBM Plex Mono', monospace; font-size:12.5px; color:var(--ink-soft); width:52px; text-align:right;
   }
-  .phase-bar-track{height:4px; background:var(--paper-line);}
+  .phase-bar-track{height:4px; background:var(--paper-line); position:relative; overflow:visible;}
   .phase-bar-fill{height:100%; background:var(--amber); transition:width .3s ease;}
+  .phase-time-marker{
+    position:absolute; top:-3px; bottom:-3px; width:2px; background:var(--ink);
+    opacity:.55; transition:left .3s ease;
+  }
+  .phase-time-marker::after{
+    content:""; position:absolute; top:-3px; left:50%; transform:translateX(-50%);
+    width:0; height:0; border-left:4px solid transparent; border-right:4px solid transparent;
+    border-top:4px solid var(--ink); opacity:.85;
+  }
   .phase-body{padding:6px 20px 16px 40px; display:none;}
   .phase.open .phase-body{display:block;}
   .phase.done .phase-head{border-left-color:var(--sage);}
@@ -275,6 +284,7 @@ const EXAM_DATE_DEFAULT = "2026-12-05"; // 작년 시험일(2025-12-06) 패턴 �
 const PLAN = [
   {
     id:"p1", title:"1구간 · 기초 체력 다지기", range:"8/3 – 9/6", color:"amber",
+    start:"2026-08-03", end:"2026-09-06",
     note:`
       <h4>이 구간의 목표</h4>
       <ul>
@@ -332,6 +342,7 @@ const PLAN = [
   },
   {
     id:"p2", title:"2구간 · 영재성검사 & 원서 준비", range:"9/7 – 10/4", color:"amber",
+    start:"2026-09-07", end:"2026-10-04",
     note:`
       <h4>영재성검사는 '정답 찾기'가 아니에요</h4>
       <ul>
@@ -380,6 +391,7 @@ const PLAN = [
   },
   {
     id:"p3", title:"3구간 · 창의적 문제해결력 훈련", range:"10/5 – 11/1", color:"amber",
+    start:"2026-10-05", end:"2026-11-01",
     note:`
       <h4>13주차 첫 기출/모의고사, 점수보다 진단이 먼저예요</h4>
       <ul>
@@ -424,6 +436,7 @@ const PLAN = [
   },
   {
     id:"p4", title:"4구간 · 실전 모의고사 & 총정리", range:"11/2 – 11/29", color:"amber",
+    start:"2026-11-02", end:"2026-11-29",
     note:`
       <h4>반복되는 실수를 대하는 법</h4>
       <ul>
@@ -467,6 +480,7 @@ const PLAN = [
   },
   {
     id:"p5", title:"5구간 · 시험 당일 & 면접 대비", range:"11/30 – 시험일 이후", color:"amber",
+    start:"2026-11-30", end:null,
     note:`
       <h4>시험 전날</h4>
       <ul>
@@ -523,6 +537,16 @@ function renderDday(){
   const diff = Math.round((exam-today)/86400000);
   document.getElementById('ddayNum').textContent = diff>=0 ? ("D-"+diff) : ("D+"+Math.abs(diff));
   document.getElementById('ddayLabel').textContent = "시험 예정일 "+state.examDate+" 기준 (추정, 공고 확정 시 수정)";
+}
+
+function phaseTimePct(phase){
+  const today = new Date(); today.setHours(0,0,0,0);
+  const start = new Date(phase.start); start.setHours(0,0,0,0);
+  const endStr = phase.end || state.examDate;
+  const end = new Date(endStr); end.setHours(0,0,0,0);
+  if(end <= start) return today >= end ? 1 : 0;
+  const pct = (today - start) / (end - start);
+  return Math.max(0, Math.min(1, pct));
 }
 
 function phaseDoneCount(phase){
@@ -623,7 +647,7 @@ function renderPhases(){
         <div class="prange">${p.range}</div>
         <div class="phase-progress">${done}/${total}</div>
       </div>
-      <div class="phase-bar-track"><div class="phase-bar-fill" style="width:${total?done/total*100:0}%"></div></div>
+      <div class="phase-bar-track"><div class="phase-bar-fill" style="width:${total?done/total*100:0}%"></div><div class="phase-time-marker" style="left:${phaseTimePct(p)*100}%" title="오늘 기준 이맘때쯤 진행되어 있어야 해요"></div></div>
       <div class="phase-body">
         ${p.note ? `<button class="guide-toggle" data-pid="${p.id}">💡 학부모 가이드 보기</button>
         <div class="coach-note" id="note_${p.id}">${p.note}</div>` : ""}
